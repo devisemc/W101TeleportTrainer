@@ -6,7 +6,7 @@
 
 int main()
 {
-    /*WIZARD 101 COORD SETUP (x and z could be swapped)
+    /*WIZARD 101 COORD SETUP
     * y hex = y
     * y hex - 4 = z
     * y hex - 8 = x
@@ -14,7 +14,7 @@ int main()
     //Get Process ID of Wizard101
     DWORD procId = GetProcId(L"WizardGraphicalClient.exe");
 
-    //Get the Module's Base Adress
+    //Get the Module's Base Address
     uintptr_t moduleBase = GetModuleBaseAddress(procId, L"WizardGraphicalClient.exe");
 
     //Get a Handle to the Process
@@ -22,12 +22,12 @@ int main()
     hProcess = OpenProcess(PROCESS_ALL_ACCESS, NULL, procId);
 
     //Resolve the Base Address of Pointer Chain
-    uintptr_t dynamicPtrBaseAddr = moduleBase + 0x02F82140;
+    uintptr_t dynamicPtrBaseAddr = moduleBase + 0x03039A48;
 
     std::cout << "DynamicPtrBaseAddr = " << "0x" << std::hex << dynamicPtrBaseAddr << std::endl;
 
     //Resolve the Y Value Pointer Chain and Calculate other Axis Addresses off it
-    std::vector<unsigned int> yOffsets = { 0xCB0, 0x0, 0x1D0, 0x0, 0x10, 0x60 };
+    std::vector<unsigned int> yOffsets = { 0x8 };
     uintptr_t yAddr = FindDMAAddy(hProcess, dynamicPtrBaseAddr, yOffsets);
     uintptr_t zAddr = yAddr - 4;
     uintptr_t xAddr = zAddr - 4;
